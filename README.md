@@ -1,4 +1,4 @@
-º# PokeWiki
+# PokeWiki
 
 Proyecto de aplicacion en Android sobre una **Pokedex** con [**API**](https://pokeapi.co/api/v2/pokemon/)
 

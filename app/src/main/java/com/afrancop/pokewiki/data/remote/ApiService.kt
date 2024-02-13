@@ -8,6 +8,13 @@ interface ApiService {
     @GET("{num}")
     suspend fun getPokemon(
         @Path("num") num: Int,
-        @Query("name") name: String
+        @Query("name") name: String,
+        @Query("types") types: String,
+        @Query("abilities") abilities: String,
+        @Query("sprites") sprites: String,
+        @Query("height") height: Int,
+        @Query("weight") weight: Int,
     ):PokeDTO
+
 }
+

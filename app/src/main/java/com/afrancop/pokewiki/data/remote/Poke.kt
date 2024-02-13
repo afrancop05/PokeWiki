@@ -1,6 +1,5 @@
 package com.afrancop.pokewiki.data.remote
 
-import android.media.Image
 import com.afrancop.pokewiki.data.local.Poke
 import com.google.gson.annotations.SerializedName
 

@@ -4,12 +4,14 @@ import com.afrancop.pokewiki.data.local.Poke
 import com.google.gson.annotations.SerializedName
 
 data class PokeDTO(
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("name")
     val name: String,
     @SerializedName("types")
-    val types: Types,
+    val types: List<Types>,
     @SerializedName("abilities")
-    val abilities: Abilities,
+    val abilities: List<Abilities>,
     @SerializedName("sprites")
     val sprite: Sprite,
     @SerializedName("height")
@@ -20,7 +22,7 @@ data class PokeDTO(
 
 data class Abilities(
     @SerializedName("ability")
-    val ability: List<Ability>,
+    val ability: Ability,
     @SerializedName("slot")
     val slot: Int,
     @SerializedName("is_hidden")
@@ -28,11 +30,11 @@ data class Abilities(
 )
 data class Ability(
     @SerializedName("name")
-    val name: String
+    val name: String,
 )
 data class Types(
     @SerializedName("type")
-    val type: List<Type>,
+    val type: Type,
     @SerializedName("slot")
     val slot: Int
 )
@@ -46,16 +48,15 @@ data class Sprite(
     val frontDefault: String
 )
 fun PokeDTO.toLocalEntity() = Poke(
-    id = null,
+    id = id,
     name = name,
-    type1 = types.type.getOrNull(0)?.name.orEmpty(),
-    type2 = types.type.getOrNull(1)?.name.orEmpty(),
-    type3 = types.type.getOrNull(2)?.name.orEmpty(),
+    type1 = types.getOrElse(0) { Types(Type(""), 0) }.type.name,
+    type2 = types.getOrElse(1) { Types(Type(""), 0) }.type.name,
     sprite = sprite.frontDefault,
-    skill1 = abilities.ability.getOrNull(0)?.name.orEmpty(),
-    skill2 = abilities.ability.getOrNull(1)?.name.orEmpty(),
-    skill3 = abilities.ability.getOrNull(2)?.name.orEmpty(),
-    hideSkill = abilities.isHidden,
+    skill1 = abilities.getOrElse(0) { Abilities(Ability(""), 0,false) }.ability.name,
+    skill2 = abilities.getOrElse(1) { Abilities(Ability(""), 0,false) }.ability.name,
+    skill3 = abilities.getOrElse(2) { Abilities(Ability(""), 0,false) }.ability.name,
+    skill4 = abilities.getOrElse(3) { Abilities(Ability(""), 0,false) }.ability.name,
     height = height,
     weight = weight
 )

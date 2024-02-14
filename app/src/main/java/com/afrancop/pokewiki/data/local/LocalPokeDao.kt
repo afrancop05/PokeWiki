@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,12 +18,8 @@ interface LocalPokeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPokemon(poke: Poke)
 
-    // Insertar pokemon favorito
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavPokemon(poke: Poke)
-
-    // Borrar pokemon favorito
+    // Borrar pokemon
     @Delete
-    fun deleteFavPokemon(poke: Poke)
+    fun deletePokemon(poke: Poke)
 
 }

@@ -17,7 +17,7 @@ data class Poke (
     val skill4: String,
     val height: Int,
     val weight: Int,
-    val deleted: Boolean = false
+    val deleted: Boolean = false,
     ) {
         override fun toString(): String =
             "$id,$name,$type1,$type2,$sprite,$skill1,$skill2,$skill3,$skill4,$height,$weight"

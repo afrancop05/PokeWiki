@@ -1,6 +1,8 @@
 package com.afrancop.pokewiki.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.twotone.Favorite
@@ -47,11 +50,12 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
             modifier = Modifier.fillMaxSize(),
             content = {
                 val pokes: List<Poke> = viewModel.pokes.value
-                items(pokes) { poke ->
+                itemsIndexed(pokes) { index,poke ->
 
                     var isFavorite by remember { mutableStateOf(false) }
 
                     Card(
+                        border = BorderStroke(2.dp, Color.Red),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(100.dp)
@@ -62,7 +66,9 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .clickable { onNavSelected(Destinations.DetailPokeScreen.route) }
+                                .clickable {
+                                    viewModel.selectPokeIndex(index);
+                                    onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
                             Image(
                                 painter = rememberAsyncImagePainter(poke.sprite),
@@ -73,11 +79,9 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
 
                             IconButton(
                                 onClick = {
-                                    // Cambiamos el estado del favorito al hacer clic
                                     isFavorite = !isFavorite
                                 }
                             ) {
-                                // Utilizamos un corazón lleno o contorno dependiendo del estado
                                 Icon(
                                     if (isFavorite) Icons.TwoTone.Favorite else Icons.Default.FavoriteBorder,
                                     contentDescription = if (isFavorite) "Eliminar de Favoritos" else "Añadir Favorito",

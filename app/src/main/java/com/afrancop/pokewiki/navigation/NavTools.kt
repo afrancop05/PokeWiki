@@ -30,8 +30,8 @@ import com.afrancop.pokewiki.R
 fun MainTopBar(navController: NavHostController) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Black,
-            titleContentColor = Color.White,
+            containerColor = Color.White,
+            titleContentColor = Color.Black,
         ),
         title = {
             Row(

@@ -1,5 +1,8 @@
 package com.afrancop.pokewiki.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.local.Poke
@@ -17,6 +20,19 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     private val _filteredPokes = MutableStateFlow<List<Poke>>(emptyList())
     var filteredPokes = _filteredPokes.asStateFlow()
+
+    var position by mutableStateOf( -1 )
+
+    fun selectPokeIndex(index: Int) {
+        position = index
+    }
+
+    fun getCurrentPoke(): Poke? {
+        if (position in 0 until pokes.value.size) {
+            return pokes.value[position]
+        }
+        return null
+    }
 
     fun loadPokes() {
         viewModelScope.launch(Dispatchers.IO) {

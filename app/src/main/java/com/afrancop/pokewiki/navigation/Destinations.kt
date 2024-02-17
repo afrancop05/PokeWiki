@@ -1,4 +1,8 @@
 package com.afrancop.pokewiki.navigation
 
-class Destinations {
+sealed class Destinations(val route: String) {
+
+    object MainScreen: Destinations("home")
+    object PokeFavScreen: Destinations("pokefav")
+    object DetailPokeScreen: Destinations("details")
 }

@@ -10,16 +10,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LocalPokeDao {
 
-    // Obtener todos los pokemons
+    // Obtener todos los pokemons favoritos
     @Query("SELECT * FROM Poke")
     fun getPokemons(): Flow<List<Poke>>
 
-    // Insertar pokemon
+    // Insertar pokemon favorito
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPokemon(poke: Poke)
 
-    // Borrar pokemon
+    // Borrar pokemon favorito
     @Delete
     fun deletePokemon(poke: Poke)
+
 
 }

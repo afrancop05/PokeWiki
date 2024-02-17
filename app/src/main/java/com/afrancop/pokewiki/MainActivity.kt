@@ -6,14 +6,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -76,10 +83,10 @@ fun TestingScreen(viewModel: MainViewModel) {
             onValueChange = {
                 try {
                     id = it.toInt()
-                } catch(_e: NumberFormatException) { // Nada
+                } catch (_e: NumberFormatException) { // Nada
                     if (it == "") id = 0
                 }
-        })
+            })
         Button(onClick = {
             val remote = RemotePokeDataSource(RetrofitBuilder.apiService)
             viewModel.viewModelScope.launch {
@@ -95,19 +102,29 @@ fun TestingScreen(viewModel: MainViewModel) {
             content = {
                 val pokes: List<Poke> = viewModel.pokes.value;
                 items(pokes) { poke ->
-                    Card (
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(30.dp)
-                            .clickable {
-                            viewModel.deletePoke(poke)
-                        }
                     ) {
-                        Text(text = "${poke.id}: ${poke.name}")
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = "${poke.id}: ${poke.name}")
+                            IconButton(onClick = {  }) {
+                                Icon(Icons.Filled.Favorite, contentDescription = "Añadir Favorito")
+                            }
+                            IconButton(onClick = { viewModel.deletePoke(poke) }) {
+                                Icon(Icons.Filled.Delete, contentDescription = "Borrar Pokemon")
+                            }
+                            IconButton(onClick = { }) {
+                                Icon(Icons.Filled.Info, contentDescription = "Detalles Pokemon")
+                            }
+                        }
                     }
                 }
-        })
+            }
+        )
     }
+
 }
 
 @Preview(showBackground = true)

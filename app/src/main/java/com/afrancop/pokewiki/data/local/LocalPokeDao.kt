@@ -14,6 +14,10 @@ interface LocalPokeDao {
     @Query("SELECT * FROM Poke")
     fun getPokemons(): Flow<List<Poke>>
 
+    // Obtener pokemons por nombre para la busqueda
+    @Query("SELECT * FROM Poke WHERE name LIKE '%' || :pokemonName || '%'")
+    fun getPokemonsByName(pokemonName: String): Flow<List<Poke>>
+
     // Insertar pokemon favorito
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPokemon(poke: Poke)

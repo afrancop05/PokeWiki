@@ -87,4 +87,7 @@ dependencies {
     //Livedata observeAsAstate y collectAsStatewithLifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("androidx.compose.runtime:runtime-livedata")
+
+    // Images from URL
+    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
 }

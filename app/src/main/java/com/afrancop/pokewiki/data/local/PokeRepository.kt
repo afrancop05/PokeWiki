@@ -14,6 +14,11 @@ class PokeRepository (val appContext: Context) {
         return db.pokeDao().getPokemons().stateIn(GlobalScope)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    suspend fun searchPokes(pokeName: String): Flow<List<Poke>> {
+        return db.pokeDao().getPokemonsByName(pokeName).stateIn(GlobalScope)
+    }
+
     fun insertPoke(poke: Poke): Unit {
         db.pokeDao().insertPokemon(poke)
     }

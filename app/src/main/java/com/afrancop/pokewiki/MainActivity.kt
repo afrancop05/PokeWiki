@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.local.Poke
-import com.afrancop.pokewiki.data.local.PokeRepository
+import com.afrancop.pokewiki.data.PokeRepository
 import com.afrancop.pokewiki.data.remote.RemotePokeDataSource
 import com.afrancop.pokewiki.data.remote.RetrofitBuilder
 import com.afrancop.pokewiki.data.remote.toLocalEntity

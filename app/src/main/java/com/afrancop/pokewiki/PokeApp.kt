@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.afrancop.pokewiki.data.local.PokeRepository
+import com.afrancop.pokewiki.data.PokeRepository
 import com.afrancop.pokewiki.navigation.MainTopBar
 import com.afrancop.pokewiki.navigation.Navigation
 import com.afrancop.pokewiki.viewmodel.MainViewModel

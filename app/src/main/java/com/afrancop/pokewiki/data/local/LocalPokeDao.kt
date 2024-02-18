@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LocalPokeDao {
 
-    // Obtener todos los pokemons favoritos
-    @Query("SELECT * FROM Poke")
-    fun getPokemons(): Flow<List<Poke>>
+    // Obtener todos los pokemons cacheados
+    @Query("SELECT * FROM Poke WHERE id >= :offset LIMIT :limit")
+    fun getPokemons(offset: Int, limit: Int): Flow<List<Poke>>
 
     // Obtener pokemons por nombre para la busqueda
     @Query("SELECT * FROM Poke WHERE name LIKE '%' || :pokemonName || '%'")

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.local.Poke
-import com.afrancop.pokewiki.data.local.PokeRepository
+import com.afrancop.pokewiki.data.PokeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

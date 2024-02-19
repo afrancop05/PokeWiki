@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -66,7 +67,18 @@ fun MainTopBar(navController: NavHostController) {
                     modifier = Modifier.size(35.dp)
                 )
             }
+            IconButton(
+                    onClick = { navController.navigate(Destinations.FindPokeScreen.route) }
+                    ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Buscar",
+                    tint = Color.Black,
+                    modifier = Modifier.size(35.dp)
+                )
+            }
         }
+
     )
 }
 

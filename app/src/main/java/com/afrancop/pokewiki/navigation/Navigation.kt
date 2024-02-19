@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.afrancop.pokewiki.ui.DetailPokeScreen
+import com.afrancop.pokewiki.ui.FindPokeScreen
 import com.afrancop.pokewiki.ui.MainScreen
 import com.afrancop.pokewiki.ui.PokeFavScreen
 import com.afrancop.pokewiki.viewmodel.MainViewModel
@@ -24,6 +25,8 @@ fun Navigation(navController: NavHostController, viewModel: MainViewModel, page:
         }
 
         composable(Destinations.DetailPokeScreen.route) { DetailPokeScreen(viewModel) }
+
+        composable(Destinations.FindPokeScreen.route) { FindPokeScreen({ dest -> navController.navigate(dest) },viewModel) }
 
     }
 }

@@ -2,7 +2,6 @@ package com.afrancop.pokewiki.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -23,15 +21,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
 import coil.compose.rememberAsyncImagePainter
 import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.navigation.Destinations
@@ -52,7 +45,7 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
                 val pokes: List<Poke> = viewModel.pokes.value
                 itemsIndexed(pokes) { index,poke ->
 
-                    var isFavorite by remember { mutableStateOf(false) }
+                    var isFavorite = poke.favorite
 
                     Card(
                         border = BorderStroke(2.dp, Color.Red),
@@ -67,8 +60,7 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clickable {
-                                    viewModel.pokes.value.get(index)
-                                    viewModel.setPoke(index)
+                                    viewModel.setPoke(poke.id!!-1)
                                     onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
                             Image(
@@ -81,9 +73,9 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
                             IconButton(
                                 onClick = {
                                     isFavorite = !isFavorite
-                                    if (!viewModel.pokes.value.get(index).favorite) {
-                                        viewModel.favPoke(index)
-                                    }else{viewModel.unfavPoke(index)}
+                                    if (!poke.favorite) {
+                                        viewModel.favPoke(poke.id!!)
+                                    }else{viewModel.unfavPoke(poke.id!!)}
                                 }
                             ) {
                                 Icon(

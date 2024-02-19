@@ -36,6 +36,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
 fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
+
     viewModel.loadFavorites()
     Column(
         modifier = Modifier
@@ -49,7 +50,7 @@ fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                 val pokes: List<Poke> = viewModel.pokes.value
                 itemsIndexed(pokes) { index,poke ->
 
-                    var isFavorite by remember { mutableStateOf(poke.favorite) }
+                    var isFavorite = poke.favorite
 
                     Card(
                         border = BorderStroke(2.dp, Color.Red),
@@ -64,7 +65,6 @@ fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clickable {
-                                    viewModel.pokes.value[index]
                                     viewModel.setPoke(index)
                                     onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
@@ -78,9 +78,9 @@ fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             IconButton(
                                 onClick = {
                                     isFavorite = !isFavorite
-                                    if (!viewModel.pokes.value[index].favorite) {
-                                        viewModel.favPoke(index)
-                                    }else{viewModel.unfavPoke(index)}
+                                    if (!poke.favorite) {
+                                        viewModel.favPoke(poke.id!!)
+                                    }else{viewModel.unfavPoke(poke.id!!)}
                                 }
                             ) {
                                 Icon(

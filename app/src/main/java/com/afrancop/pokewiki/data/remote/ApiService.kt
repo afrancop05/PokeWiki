@@ -10,5 +10,9 @@ interface ApiService {
         @Path("num") num: Int
     ):PokeDTO
 
+    @GET("{name}")
+    suspend fun getPokemon(
+        @Path("name") name: String
+    ):PokeDTO
 }
 

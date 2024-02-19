@@ -14,18 +14,23 @@ import kotlinx.coroutines.flow.first
 
 class PokeRepository (val appContext: Context) {
     private val db: AppDataBase = AppDataBase.getDatabase(appContext)
-    private val paginationSize: Int = 5
+    val paginationSize: Int = 10
 
     @OptIn(DelicateCoroutinesApi::class)
     suspend fun loadPokes(page: Int): Flow<List<Poke>> {
-        val offset: Int = page * paginationSize
+        val offset: Int = page * paginationSize + 1
         val pokeFlow: Flow<List<Poke>> = db.pokeDao().getPokemons(offset, paginationSize).stateIn(GlobalScope)
         val pokes: List<Poke> = pokeFlow.first()
         if (pokes.size < paginationSize) {
             try {
-                for (i: Int in pokes.size until paginationSize) {
-                    val dto: PokeDTO = RetrofitBuilder.apiService.getPokemon(i)
-                    db.pokeDao().insertPokemon(dto.toLocalEntity())
+                val ids: List<Int> = (offset until offset + paginationSize).toList()
+                for (poke: Poke in pokes) {
+                    val pos: Int = ids.indexOf(poke.id)
+                    if (pos > -1) ids.drop(pos)
+                }
+                for (id: Int in ids) {
+                    val dto: PokeDTO = RetrofitBuilder.apiService.getPokemon(id)
+                    insertPoke(dto.toLocalEntity())
                 }
             }
             catch(e: Exception) { /* Probablemente un 404 */ }
@@ -35,15 +40,31 @@ class PokeRepository (val appContext: Context) {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    suspend fun searchPokes(pokeName: String): Flow<List<Poke>> {
-        return db.pokeDao().getPokemonsByName(pokeName).stateIn(GlobalScope)
+    suspend fun loadFavorites(): Flow<List<Poke>> {
+        return db.pokeDao().getFavedPokemons().stateIn(GlobalScope)
     }
 
-    fun insertPoke(poke: Poke): Unit {
+    suspend fun findPoke(pokeName: String): Poke? {
+        var poke: Poke? = db.pokeDao().getPokemonByName(pokeName)
+        if (poke == null) {
+            try {
+                val dto: PokeDTO = RetrofitBuilder.apiService.getPokemon(pokeName)
+                poke = dto.toLocalEntity()
+            }
+            catch(e: Exception) { /* Probablemente un 404 */ }
+        }
+        return poke
+    }
+
+    fun favPoke(id: Int) {
+        db.pokeDao().favPokemon(id)
+    }
+
+    fun unfavPoke(id: Int) {
+        db.pokeDao().unfavPokemon(id)
+    }
+
+    private fun insertPoke(poke: Poke): Unit {
         db.pokeDao().insertPokemon(poke)
-    }
-
-    fun deletePoke(poke: Poke): Unit {
-        db.pokeDao().deletePokemon(poke)
     }
 }

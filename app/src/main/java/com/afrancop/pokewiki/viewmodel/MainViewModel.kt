@@ -1,8 +1,5 @@
 package com.afrancop.pokewiki.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.local.Poke
@@ -18,43 +15,35 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
     private val _pokes: MutableStateFlow<List<Poke>> = MutableStateFlow(listOf())
     var pokes = _pokes.asStateFlow()
 
-    private val _filteredPokes = MutableStateFlow<List<Poke>>(emptyList())
-    var filteredPokes = _filteredPokes.asStateFlow()
-
-    var position by mutableStateOf( -1 )
-
-    fun selectPokeIndex(index: Int) {
-        position = index
-    }
-
-    fun getCurrentPoke(): Poke? {
-        if (position in 0 until pokes.value.size) {
-            return pokes.value[position]
-        }
-        return null
-    }
-
-    fun loadPokes() {
+    fun loadPokes(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            pokes = repository.loadPokes() as StateFlow<List<Poke>>
+            pokes = repository.loadPokes(page) as StateFlow<List<Poke>>
         }
     }
 
-    fun searchPokemonsByName(pokemonName: String) {
+    fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            filteredPokes = repository.searchPokes(pokemonName) as StateFlow<List<Poke>>
+            pokes = repository.loadFavorites() as StateFlow<List<Poke>>
         }
     }
 
-    fun insertPoke(poke: Poke) {
+    fun searchPokemonByName(pokemonName: String): Poke? {
+        var poke: Poke? = null
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertPoke(poke)
+            poke = repository.findPoke(pokemonName)
+        }
+        return poke
+    }
+
+    fun favPoke(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.favPoke(id)
         }
     }
 
-    fun deletePoke(poke: Poke) {
+    fun unfavPoke(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deletePoke(poke)
+            repository.unfavPoke(id)
         }
     }
 }

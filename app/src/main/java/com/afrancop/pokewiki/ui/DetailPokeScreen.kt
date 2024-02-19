@@ -1,5 +1,6 @@
 package com.afrancop.pokewiki.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,10 +26,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
+
 @Composable
 fun DetailPokeScreen(viewModel: MainViewModel) {
 
-    val pokeSelected = viewModel.getCurrentPoke()
+    val pokeSelected = viewModel.poke
 
     Column(
         Modifier.fillMaxSize(),
@@ -84,7 +86,7 @@ fun DetailPokeScreen(viewModel: MainViewModel) {
         Text(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("Habilidad 1 Oculta:")
+                    append("Tipo 2:")
                 }
                 append(" ${pokeSelected?.type2.takeIf { it?.isNotBlank() == true } ?: "No tiene"}")
             },
@@ -123,7 +125,7 @@ fun DetailPokeScreen(viewModel: MainViewModel) {
         Text(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("Habilidad 1 Oculta:")
+                    append("Habilidad Oculta 1:")
                 }
                 append(" ${pokeSelected?.skill3.takeIf { it?.isNotBlank() == true } ?: "No tiene"}")
             },
@@ -136,7 +138,7 @@ fun DetailPokeScreen(viewModel: MainViewModel) {
         Text(
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("Habilidad 1 Oculta:")
+                    append("Habilidad Oculta 2:")
                 }
                 append(" ${pokeSelected?.skill4.takeIf { it?.isNotBlank() == true } ?: "No tiene"}")
             },

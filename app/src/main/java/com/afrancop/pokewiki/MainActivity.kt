@@ -65,6 +65,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+/*
+
 
 @Composable
 fun TestingScreen(viewModel: MainViewModel) {
@@ -126,6 +128,7 @@ fun TestingScreen(viewModel: MainViewModel) {
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -134,3 +137,4 @@ fun GreetingPreview() {
         TestingScreen(viewModel)
     }
 }
+*/

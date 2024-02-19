@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.afrancop.pokewiki.R
 
 
@@ -64,5 +68,55 @@ fun MainTopBar(navController: NavHostController) {
             }
         }
     )
+}
+
+@Composable
+fun MainBottomBar(navController:NavHostController,
+    onLeftClicked: () -> Unit,
+    onRightClicked: () -> Unit,
+    onHomeClicked: () -> Unit,
+    page: Int
+) {
+    val navDest = navController.currentBackStackEntryAsState().value?.destination?.route
+    if (navDest  == Destinations.MainScreen.route) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onLeftClicked) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Go Back",
+                    tint = Color.Black
+                )
+            }
+            Text(text = "${page}")
+            IconButton(onClick = onRightClicked) {
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Go Forward",
+                    tint = Color.Black
+                )
+            }
+        }
+    }
+    if (navDest  == Destinations.PokeFavScreen.route || navDest  == Destinations.DetailPokeScreen.route) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onHomeClicked) { // Agregamos el botón de inicio aquí
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Go Home",
+                    tint = Color.Black
+                )
+            }
+        }
+    }
 }
 

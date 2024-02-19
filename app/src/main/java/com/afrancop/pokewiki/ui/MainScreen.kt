@@ -38,8 +38,8 @@ import com.afrancop.pokewiki.navigation.Destinations
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
-fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
-
+fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:Int) {
+    viewModel.loadPokes(page)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +67,8 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clickable {
-                                    viewModel.selectPokeIndex(index);
+                                    viewModel.pokes.value.get(index)
+                                    viewModel.setPoke(index)
                                     onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
                             Image(
@@ -80,6 +81,9 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             IconButton(
                                 onClick = {
                                     isFavorite = !isFavorite
+                                    if (!viewModel.pokes.value.get(index).favorite) {
+                                        viewModel.favPoke(index)
+                                    }else{viewModel.unfavPoke(index)}
                                 }
                             ) {
                                 Icon(

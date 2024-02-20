@@ -6,42 +6,38 @@ import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.data.remote.PokeDTO
 import com.afrancop.pokewiki.data.remote.RetrofitBuilder
 import com.afrancop.pokewiki.data.remote.toLocalEntity
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
-class PokeRepository (val appContext: Context) {
+class PokeRepository (appContext: Context) {
     private val db: AppDataBase = AppDataBase.getDatabase(appContext)
     val paginationSize: Int = 10
 
-    @OptIn(DelicateCoroutinesApi::class)
-    suspend fun loadPokes(page: Int): Flow<List<Poke>> {
+    suspend fun loadPokes(page: Int): List<Poke> {
         val offset: Int = page * paginationSize + 1
-        val pokeFlow: Flow<List<Poke>> = db.pokeDao().getPokemons(offset, paginationSize).stateIn(GlobalScope)
+        val pokeFlow: Flow<List<Poke>> = db.pokeDao().getPokemons(offset, paginationSize)
         val pokes: List<Poke> = pokeFlow.first()
-        if (pokes.size < paginationSize) {
-            try {
-                val ids: List<Int> = (offset until offset + paginationSize).toList()
-                for (poke: Poke in pokes) {
-                    val pos: Int = ids.indexOf(poke.id)
-                    if (pos > -1) ids.drop(pos)
-                }
-                for (id: Int in ids) {
-                    val dto: PokeDTO = RetrofitBuilder.apiService.getPokemon(id)
-                    insertPoke(dto.toLocalEntity())
+        val newPokes: MutableList<Poke> = mutableListOf()
+        var listId = 0
+        for (i: Int in offset until offset + paginationSize) {
+            if (listId < pokes.size - 1 && pokes[listId].id == i) {
+                newPokes += pokes[listId]
+
+                listId++
+            } else {
+                try {
+                    val newPoke = RetrofitBuilder.apiService.getPokemon(i).toLocalEntity()
+                    newPokes += newPoke
+                    insertPoke(newPoke)
+                } catch (e: Exception) { /* Probablemente un 404 */
                 }
             }
-            catch(e: Exception) { /* Probablemente un 404 */ }
-            return db.pokeDao().getPokemons(offset, paginationSize).stateIn(GlobalScope)
         }
-        return pokeFlow
+        return newPokes
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    suspend fun loadFavorites(): Flow<List<Poke>> {
-        return db.pokeDao().getFavedPokemons().stateIn(GlobalScope)
+    suspend fun loadFavorites(): List<Poke> {
+        return db.pokeDao().getFavedPokemons().first()
     }
 
     suspend fun findPoke(pokeName: String): Poke? {
@@ -56,15 +52,17 @@ class PokeRepository (val appContext: Context) {
         return poke
     }
 
-    fun favPoke(id: Int) {
+    fun favPoke(id: Int): Poke? {
         db.pokeDao().favPokemon(id)
+        return db.pokeDao().getPokemonById(id)
     }
 
-    fun unfavPoke(id: Int) {
+    fun unfavPoke(id: Int): Poke? {
         db.pokeDao().unfavPokemon(id)
+        return db.pokeDao().getPokemonById(id)
     }
 
-    private fun insertPoke(poke: Poke): Unit {
+    private fun insertPoke(poke: Poke) {
         db.pokeDao().insertPokemon(poke)
     }
 }

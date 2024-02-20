@@ -42,7 +42,7 @@ fun PokeApp() {
                     },
                     onRightClicked = { page++ },
                     onHomeClicked = {navController.navigate(Destinations.MainScreen.route)},
-                    page
+                    page + 1
                 )
         }
     ) { innerPadding ->

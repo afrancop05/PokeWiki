@@ -60,7 +60,7 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clickable {
-                                    viewModel.setPoke(poke.id!!-1)
+                                    viewModel.poke = poke
                                     onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
                             Image(

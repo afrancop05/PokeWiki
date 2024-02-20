@@ -43,7 +43,7 @@ fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var name: String by rememberSaveable { mutableStateOf("") }
-        var poke: Poke? by rememberSaveable { mutableStateOf(null) }
+        var selectedPoke: Poke? by rememberSaveable { mutableStateOf(null) }
 
         TextField(
             modifier = Modifier.padding(top = 30.dp),
@@ -59,14 +59,14 @@ fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
 
         Button(onClick = {
             viewModel.searchPokemonByName(name)?.let { searchedPokemon ->
-                poke = searchedPokemon
+                selectedPoke = searchedPokemon
             }
         }) {
             Text("Enviar")
         }
 
-        poke?.let { pokemon ->
-            var isFavorite = pokemon.favorite
+        selectedPoke?.let { poke ->
+            var isFavorite = poke.favorite
 
             Card(
                 border = BorderStroke(2.dp, Color.Red),
@@ -81,24 +81,24 @@ fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            viewModel.setPoke(pokemon.id!! - 1)
+                            viewModel.poke = poke
                             onNavSelected(Destinations.DetailPokeScreen.route)
                         }
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(pokemon.sprite),
+                        painter = rememberAsyncImagePainter(poke.sprite),
                         contentDescription = null,
                         modifier = Modifier.size(100.dp)
                     )
-                    Text(text = pokemon.name)
+                    Text(text = poke.name)
 
                     IconButton(
                         onClick = {
                             isFavorite = !isFavorite
-                            if (!pokemon.favorite) {
-                                viewModel.favPoke(pokemon.id!!)
+                            if (!poke.favorite) {
+                                viewModel.favPoke(poke.id!!)
                             } else {
-                                viewModel.unfavPoke(pokemon.id!!)
+                                viewModel.unfavPoke(poke.id!!)
                             }
                         }
                     ) {

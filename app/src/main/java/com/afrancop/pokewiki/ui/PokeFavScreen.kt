@@ -65,7 +65,7 @@ fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clickable {
-                                    viewModel.setPoke(index)
+                                    viewModel.poke = poke
                                     onNavSelected(Destinations.DetailPokeScreen.route) }
                         ) {
                             Image(

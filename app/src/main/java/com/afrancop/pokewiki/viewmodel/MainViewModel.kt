@@ -16,9 +16,6 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
     var pokes = _pokes.asStateFlow()
 
     var poke: Poke? = null
-    fun setPoke(index: Int){
-        poke = pokes.value[index]
-    }
 
     fun loadPokes(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {

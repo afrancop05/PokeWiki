@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,7 +15,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
 fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
-
+    val pokes: List<Poke> = viewModel.pokes.collectAsState().value
     viewModel.loadFavorites()
     Column(
         modifier = Modifier
@@ -25,7 +26,6 @@ fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             content = {
-                val pokes: List<Poke> = viewModel.pokes.value
                 itemsIndexed(pokes) { index,poke ->
                     CardPoke(onNavSelected,viewModel,poke)
                 }

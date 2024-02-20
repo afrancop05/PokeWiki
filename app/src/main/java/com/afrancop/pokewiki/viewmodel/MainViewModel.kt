@@ -1,5 +1,7 @@
 package com.afrancop.pokewiki.viewmodel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.local.Poke
@@ -15,7 +17,7 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
     private val _pokes: MutableStateFlow<List<Poke>> = MutableStateFlow(listOf())
     var pokes = _pokes.asStateFlow()
 
-    var poke: Poke? = null
+    var poke: MutableState<Poke?> = mutableStateOf(null)
 
     fun loadPokes(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,7 +33,7 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     fun searchPokemonByName(pokemonName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            poke = repository.findPoke(pokemonName.lowercase())
+            poke.value = repository.findPoke(pokemonName.lowercase())
         }
     }
 

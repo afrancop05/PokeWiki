@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,6 +16,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 @Composable
 fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:Int) {
     viewModel.loadPokes(page)
+    val pokes: List<Poke> = viewModel.pokes.collectAsState().value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -24,7 +26,6 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             content = {
-                val pokes: List<Poke> = viewModel.pokes.value
                 itemsIndexed(pokes) { index,poke ->
                     CardPoke(onNavSelected,viewModel,poke)
                 }

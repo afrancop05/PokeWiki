@@ -43,7 +43,7 @@ fun CardPoke(onNavSelected: (String) -> Unit, viewModel: MainViewModel, poke: Po
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
-                    viewModel.poke = poke
+                    viewModel.poke.value = poke
                     onNavSelected(Destinations.DetailPokeScreen.route) }
         ) {
             Image(

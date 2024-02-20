@@ -1,6 +1,5 @@
 package com.afrancop.pokewiki.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +29,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 @Composable
 fun DetailPokeScreen(viewModel: MainViewModel) {
 
-    val pokeSelected = viewModel.poke
+    val pokeSelected = viewModel.poke.value
 
     Column(
         Modifier.fillMaxSize(),

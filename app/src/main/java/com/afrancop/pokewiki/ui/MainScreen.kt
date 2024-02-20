@@ -33,3 +33,33 @@ fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:In
         )
     }
 }
+/*@Composable
+fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel, page: Int) {
+    var reloadTrigger by remember { mutableIntStateOf(0) }
+    val pokesState = viewModel.pokes.collectAsState()
+    LaunchedEffect(reloadTrigger) {
+        viewModel.loadPokes(page)
+    }
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(500)
+            reloadTrigger++
+        }
+    }
+    val pokes = pokesState.value
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(40.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            content = {
+                itemsIndexed(pokes) { index, poke ->
+                    CardPoke(onNavSelected, viewModel, poke)
+                }
+            }
+        )
+    }
+}*/

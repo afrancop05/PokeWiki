@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
@@ -39,18 +38,14 @@ fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
             }
         )
 
-        var foundPoke: Poke? = null
-
         Button(onClick = {
-            viewModel.searchPokemonByName(name).let {
-                foundPoke = viewModel.poke
-            }
+            viewModel.searchPokemonByName(name)
         }) {
             Text("Enviar")
         }
 
-        foundPoke?.let { poke ->
-            CardPoke(onNavSelected,viewModel,poke)
+        viewModel.poke?.let { poke ->
+            CardPoke(onNavSelected,viewModel, viewModel.poke!!)
         }
     }
 }

@@ -44,7 +44,7 @@ fun DetailPokeScreen(viewModel: MainViewModel) {
             contentDescription = "Imagen Pokemon",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .size(300.dp)
+                .size(250.dp)
                 .clip(shape = RoundedCornerShape(32.dp))
                 .background(color = Color.White)
                 .border(

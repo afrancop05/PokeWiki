@@ -31,7 +31,7 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     fun searchPokemonByName(pokemonName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            poke = repository.findPoke(pokemonName)
+            poke = repository.findPoke(pokemonName.lowercase())
         }
     }
 

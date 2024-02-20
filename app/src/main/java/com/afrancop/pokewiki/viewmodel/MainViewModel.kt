@@ -40,24 +40,28 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     fun favPoke(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val poke: Poke? = repository.favPoke(id)
-            if (poke != null) {
-                val pokeList = _pokes.value.toMutableList()
-                val listId: Int = pokeList.indexOfFirst { it.id == id }
-                pokeList[listId] = poke
-                _pokes.value = pokeList
-            }
+            val newPoke: Poke? = repository.favPoke(id)
+            updatePoke(newPoke)
         }
     }
 
     fun unfavPoke(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val poke: Poke? = repository.unfavPoke(id)
-            if (poke != null) {
-                val pokeList = _pokes.value.toMutableList()
-                val listId: Int = pokeList.indexOfFirst { it.id == id }
-                pokeList[listId] = poke
+            val newPoke: Poke? = repository.unfavPoke(id)
+            updatePoke(newPoke)
+        }
+    }
+
+    private fun updatePoke(newPoke: Poke?) {
+        if (newPoke != null) {
+            val pokeList = _pokes.value.toMutableList()
+            val listId: Int = pokeList.indexOfFirst { it.id == newPoke.id }
+            if (listId > -1) {
+                pokeList[listId] = newPoke
                 _pokes.value = pokeList
+            }
+            if (poke.value != null && poke.value?.id == newPoke.id) {
+                poke.value = newPoke
             }
         }
     }

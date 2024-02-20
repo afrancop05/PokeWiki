@@ -58,8 +58,8 @@ fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
         )
 
         Button(onClick = {
-            viewModel.searchPokemonByName(name)?.let { searchedPokemon ->
-                selectedPoke = searchedPokemon
+            viewModel.searchPokemonByName(name).let {
+                selectedPoke = viewModel.poke
             }
         }) {
             Text("Enviar")

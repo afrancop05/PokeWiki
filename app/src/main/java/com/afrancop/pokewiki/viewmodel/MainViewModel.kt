@@ -29,12 +29,10 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
         }
     }
 
-    fun searchPokemonByName(pokemonName: String): Poke? {
-        var poke: Poke? = null
+    fun searchPokemonByName(pokemonName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             poke = repository.findPoke(pokemonName)
         }
-        return poke
     }
 
     fun favPoke(id: Int) {

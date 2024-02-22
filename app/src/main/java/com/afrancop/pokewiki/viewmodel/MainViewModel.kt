@@ -38,7 +38,7 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     fun searchPokemonByName(pokemonName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            poke.value = repository.findPoke(pokemonName.lowercase())
+            _pokes.value = repository.findPoke(pokemonName.lowercase())
         }
     }
 
@@ -68,5 +68,9 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
                 poke.value = newPoke
             }
         }
+    }
+
+    fun clearPokes() {
+        _pokes.value = listOf()
     }
 }

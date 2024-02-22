@@ -3,7 +3,6 @@ package com.afrancop.pokewiki.data
 import android.content.Context
 import com.afrancop.pokewiki.data.local.AppDataBase
 import com.afrancop.pokewiki.data.local.Poke
-import com.afrancop.pokewiki.data.remote.PokeDTO
 import com.afrancop.pokewiki.data.remote.RetrofitBuilder
 import com.afrancop.pokewiki.data.remote.toLocalEntity
 import kotlinx.coroutines.flow.Flow
@@ -40,16 +39,8 @@ class PokeRepository (appContext: Context) {
         return db.pokeDao().getFavedPokemons().first()
     }
 
-    suspend fun findPoke(pokeName: String): Poke? {
-        var poke: Poke? = db.pokeDao().getPokemonByName(pokeName)
-        if (poke == null) {
-            try {
-                val dto: PokeDTO = RetrofitBuilder.apiService.getPokemon(pokeName)
-                poke = dto.toLocalEntity()
-            }
-            catch(e: Exception) { /* Probablemente un 404 */ }
-        }
-        return poke
+    fun findPoke(pokeName: String): List<Poke> {
+        return db.pokeDao().getPokemonsByName(pokeName)
     }
 
     fun favPoke(id: Int): Poke? {

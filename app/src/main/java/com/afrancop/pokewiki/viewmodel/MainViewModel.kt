@@ -4,8 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.data.PokeRepository
+import com.afrancop.pokewiki.data.local.Poke
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,10 +18,9 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     var poke: MutableState<Poke?> = mutableStateOf(null)
 
-    var ready: MutableState<Boolean> = mutableStateOf(true)
+    var ready: MutableState<Boolean> = mutableStateOf(false)
 
     fun loadPokes(page: Int) {
-        ready.value = false
         viewModelScope.launch(Dispatchers.IO) {
             val newPokes: List<Poke> = repository.loadPokes(page)
             _pokes.value = newPokes

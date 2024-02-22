@@ -17,6 +17,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:Int) {
     viewModel.loadPokes(page)
     val pokes: List<Poke> by viewModel.pokes.collectAsStateWithLifecycle()
+    val ready: Boolean by viewModel.ready
     Column(
         modifier = Modifier
             .fillMaxSize()

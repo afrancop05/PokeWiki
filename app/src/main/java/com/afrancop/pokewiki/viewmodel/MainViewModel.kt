@@ -18,10 +18,14 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     var poke: MutableState<Poke?> = mutableStateOf(null)
 
+    var ready: MutableState<Boolean> = mutableStateOf(true)
+
     fun loadPokes(page: Int) {
+        ready.value = false
         viewModelScope.launch(Dispatchers.IO) {
             val newPokes: List<Poke> = repository.loadPokes(page)
             _pokes.value = newPokes
+            ready.value = true
         }
     }
 

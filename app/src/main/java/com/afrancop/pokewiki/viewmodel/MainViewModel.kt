@@ -8,26 +8,27 @@ import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.data.PokeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
-    private val _pokes: MutableStateFlow<List<Poke>> = MutableStateFlow(listOf())
+    private var _pokes: MutableStateFlow<List<Poke>> = MutableStateFlow(listOf())
     var pokes = _pokes.asStateFlow()
 
     var poke: MutableState<Poke?> = mutableStateOf(null)
 
     fun loadPokes(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            pokes = repository.loadPokes(page) as StateFlow<List<Poke>>
+            val newPokes: List<Poke> = repository.loadPokes(page)
+            _pokes.value = newPokes
         }
     }
 
     fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            pokes = repository.loadFavorites() as StateFlow<List<Poke>>
+            val newPokes: List<Poke> = repository.loadFavorites()
+            _pokes.value = newPokes
         }
     }
 
@@ -39,13 +40,29 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     fun favPoke(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.favPoke(id)
+            val newPoke: Poke? = repository.favPoke(id)
+            updatePoke(newPoke)
         }
     }
 
     fun unfavPoke(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.unfavPoke(id)
+            val newPoke: Poke? = repository.unfavPoke(id)
+            updatePoke(newPoke)
+        }
+    }
+
+    private fun updatePoke(newPoke: Poke?) {
+        if (newPoke != null) {
+            val pokeList = _pokes.value.toMutableList()
+            val listId: Int = pokeList.indexOfFirst { it.id == newPoke.id }
+            if (listId > -1) {
+                pokeList[listId] = newPoke
+                _pokes.value = pokeList
+            }
+            if (poke.value != null && poke.value?.id == newPoke.id) {
+                poke.value = newPoke
+            }
         }
     }
 }

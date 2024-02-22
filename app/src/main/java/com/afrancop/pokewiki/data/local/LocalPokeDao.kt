@@ -20,6 +20,9 @@ interface LocalPokeDao {
     @Query("SELECT * FROM Poke WHERE name LIKE :pokemonName")
     fun getPokemonByName(pokemonName: String): Poke?
 
+    @Query("SELECT * FROM Poke WHERE id = :id")
+    fun getPokemonById(id: Int): Poke?
+
     // Insertar pokemon favorito
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPokemon(poke: Poke)
@@ -29,4 +32,5 @@ interface LocalPokeDao {
 
     @Query("UPDATE Poke SET  favorite = 0 WHERE id = :id")
     fun unfavPokemon(id: Int)
+
 }

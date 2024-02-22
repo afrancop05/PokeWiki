@@ -1,6 +1,7 @@
 package com.afrancop.pokewiki.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,7 +96,8 @@ fun MainBottomBar(navController:NavHostController,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             IconButton(onClick = onLeftClicked) {
                 Icon(
@@ -114,12 +116,13 @@ fun MainBottomBar(navController:NavHostController,
             }
         }
     }
-    if (navDest  == Destinations.PokeFavScreen.route || navDest  == Destinations.DetailPokeScreen.route) {
+    if (navDest == Destinations.PokeFavScreen.route || navDest == Destinations.DetailPokeScreen.route || navDest == Destinations.FindPokeScreen.route) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             IconButton(onClick = onHomeClicked) { // Agregamos el botón de inicio aquí
                 Icon(

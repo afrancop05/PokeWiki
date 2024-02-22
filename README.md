@@ -50,8 +50,6 @@ realizar operaciones en la base de datos.
 
 ### Acceso a la API
 
-
-
 `PokeDTO.kt` contiene las clases de datos que representan la respuesta de la API.  
 Tiene clases anidadas como Abilities, Types...
 
@@ -70,8 +68,30 @@ Para acceder a internet para coger los datos de la API se ha utilizado el siguie
 
 ### Almacenamiento Registros con Room
 
-`MainViewModel.kt` utiliza corrutinas para cargar, insertar y eliminar datos de pokemons  
-en un hilo secundario.
+`MainViewModel.kt` utiliza corrutinas para cargar(con y sin paginación),buscar por nombre,  
+añadir y quitar de favoritos los datos de pokemons en un hilo secundario.
 
-`MainActivity.kt` permite ingresar IDs de pokemons en un TextField para insertarlos,  
-mostrarlos y borrarlos de la base de datos local **Room**.
+`MainActivity.kt` en fase de testeo permitia ingresar IDs de pokemons en un TextField para insertarlos,  
+mostrarlos y borrarlos de la base de datos local **Room**. Ahora solo ejecuta la función **PokeApp**
+
+### Utils
+
+`PokeApp` se encarga de que en la vista este la TopBar, la BottomBar y se inicialice la navegación de pantallas.
+
+`PokeCard` es la tarjeta que se muestra para los pokemons.  
+Tiene el sprite junto al nombre del pokemon y un icono para añadir a favoritos.
+
+### Pantallas
+
+`MainScreen` carga los pokemons (con el formato que le da PokeCard) de la api a la base de datos local  
+cacheada (carga los registros según se pasa de página).
+
+`PokeFavScreen` carga una lista con los pokemons en los que se le haya dado al icono de favoritos en la MainScreen.  
+A esta pantalla se accede pulsando el icono de corazón de la TopBar.
+
+`DetailPokeScreen` se lanza cuando en la MainScreen se pulsa sobre una de las Cards disponibles y  
+muestra una pantalla con los detalles del pokemon pulsado.
+
+`FindPokeScreen` se accede cuando se pulsa sobre el icono de la lupa de la TopBar y muestra un buscador  
+(funcional solo por nombre completo del pokemon debido a que la api no incorpora una forma de buscarlo  
+por parte del nombre del pokemon).

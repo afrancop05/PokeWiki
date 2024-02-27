@@ -60,7 +60,7 @@ fun MainTopBar(navController: NavHostController) {
         },
         actions = {
             Button(
-                onClick = { navController.navigate(Destinations.MetricasScreen.route) }
+                onClick = { navController.navigate(Destinations.MetricsScreen.route) }
             ) {
                 Text("Metricas")
             }

@@ -7,7 +7,6 @@ import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.data.remote.RetrofitBuilder
 import com.afrancop.pokewiki.data.remote.toLocalEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 
 class PokeRepository (appContext: Context) {
@@ -58,12 +57,12 @@ class PokeRepository (appContext: Context) {
     private fun insertPoke(poke: Poke) {
         db.pokeDao().insertPokemon(poke)
     }
-    private val newItem = Metrics( null,"001", "button")
-    suspend fun loadMetrics(): Flow<List<Metrics>> {
-        db.metricsDao().insertMetric(newItem)
+    private val newMetric = Metrics( null,"001", "button")
+    fun loadMetrics():List<Metrics> {
+        db.metricsDao().insertMetric(newMetric)
         return db.metricsDao().getAllMetrics()
     }
-    suspend fun insertMetrics(metrics: Flow<List<Metrics>>) {
+    fun insertMetrics(metrics: Metrics) {
         db.metricsDao().insertMetric(metrics)
     }
 

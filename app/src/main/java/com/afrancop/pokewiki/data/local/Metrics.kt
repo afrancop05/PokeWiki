@@ -10,5 +10,8 @@ data class Metrics(
     val id: Long? = null,
     val itemId: String,
     val itemType: String
-)
+){
+    override fun toString(): String =
+        "$id,$itemId,$itemType"
+}
 

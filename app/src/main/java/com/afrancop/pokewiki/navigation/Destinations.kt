@@ -6,5 +6,5 @@ sealed class Destinations(val route: String) {
     object PokeFavScreen: Destinations("pokefav")
     object DetailPokeScreen: Destinations("details")
     object FindPokeScreen: Destinations("find")
-    object MetricasScreen: Destinations("metrics")
+    object MetricsScreen: Destinations("metrics")
 }

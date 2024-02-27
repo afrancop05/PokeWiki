@@ -23,14 +23,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 
 @Composable
 fun DetailPokeScreen(viewModel: MainViewModel) {
-
     val pokeSelected = viewModel.poke.value
-    viewModel.insert
+    val newMetric = Metrics( null,"001", "detail poke screen")
+    viewModel.insertMetric(newMetric)
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

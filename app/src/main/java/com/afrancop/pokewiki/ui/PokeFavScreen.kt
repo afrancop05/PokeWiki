@@ -11,11 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
 fun PokeFavScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
+    val newMetric = Metrics( null,"004", "fav poke screen")
+    viewModel.insertMetric(newMetric)
     val pokes: List<Poke> by viewModel.pokes.collectAsStateWithLifecycle()
     viewModel.loadFavorites()
     Column(

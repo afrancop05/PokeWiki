@@ -23,9 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 @Composable
-fun MetricasScreen(viewModel: MainViewModel){
-    val metrics: List<Metrics> by viewModel.metrics.collectAsStateWithLifecycle()
+fun MetricsScreen(viewModel: MainViewModel){
     viewModel.loadMetrics()
+    val metrics: List<Metrics> by viewModel.metrics.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .fillMaxSize()

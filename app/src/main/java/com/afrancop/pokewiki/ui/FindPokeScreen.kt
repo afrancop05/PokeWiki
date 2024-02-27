@@ -20,11 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
 @Composable
 fun FindPokeScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel) {
+    val newMetric = Metrics( null,"002", "find poke screen")
+    viewModel.insertMetric(newMetric)
     Column(
         modifier = Modifier
             .fillMaxSize()

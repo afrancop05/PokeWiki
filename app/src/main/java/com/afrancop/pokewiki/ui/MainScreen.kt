@@ -14,10 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.data.local.Poke
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 @Composable
 fun MainScreen(onNavSelected: (String) -> Unit, viewModel: MainViewModel,page:Int) {
+    val newMetric = Metrics( null,"003", "main poke screen")
+    viewModel.insertMetric(newMetric)
     viewModel.loadPokes(page)
     val pokes: List<Poke> by viewModel.pokes.collectAsStateWithLifecycle()
     val ready: Boolean by viewModel.ready

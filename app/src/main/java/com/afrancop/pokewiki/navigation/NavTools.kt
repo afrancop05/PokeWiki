@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -58,6 +59,11 @@ fun MainTopBar(navController: NavHostController) {
             }
         },
         actions = {
+            Button(
+                onClick = { navController.navigate(Destinations.MetricasScreen.route) }
+            ) {
+                Text("Metricas")
+            }
             IconButton(
                 onClick = { navController.navigate(Destinations.PokeFavScreen.route) }
             ) {

@@ -30,7 +30,7 @@ import com.afrancop.pokewiki.viewmodel.MainViewModel
 fun DetailPokeScreen(viewModel: MainViewModel) {
 
     val pokeSelected = viewModel.poke.value
-
+    viewModel.insert
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

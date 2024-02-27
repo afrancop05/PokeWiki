@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.afrancop.pokewiki.ui.DetailPokeScreen
 import com.afrancop.pokewiki.ui.FindPokeScreen
 import com.afrancop.pokewiki.ui.MainScreen
+import com.afrancop.pokewiki.ui.MetricasScreen
 import com.afrancop.pokewiki.ui.PokeFavScreen
 import com.afrancop.pokewiki.viewmodel.MainViewModel
 
@@ -31,5 +32,6 @@ fun Navigation(navController: NavHostController, viewModel: MainViewModel, page:
             FindPokeScreen({ dest -> navController.navigate(dest) },viewModel)
         }
 
+        composable(Destinations.MetricasScreen.route) { MetricasScreen(viewModel) }
     }
 }

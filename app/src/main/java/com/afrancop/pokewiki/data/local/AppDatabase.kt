@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
 
 abstract class AppDataBase : RoomDatabase() {
     abstract fun pokeDao(): LocalPokeDao
+    abstract fun metricsDao(): LocalMetricDao
 
     companion object {
         @Volatile

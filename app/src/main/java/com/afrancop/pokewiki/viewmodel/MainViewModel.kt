@@ -5,9 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.afrancop.pokewiki.data.PokeRepository
+import com.afrancop.pokewiki.data.local.Metrics
 import com.afrancop.pokewiki.data.local.Poke
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -20,6 +23,18 @@ class MainViewModel(private val repository: PokeRepository) : ViewModel() {
 
     var ready: MutableState<Boolean> = mutableStateOf(false)
 
+    private var _metrics: MutableStateFlow<List<Metrics>> = MutableStateFlow(listOf())
+    var metrics = _metrics.asStateFlow()
+
+    suspend fun loadMetrics(){
+            val newMetrics: Flow<List<Metrics>> = repository.loadMetrics()
+            _metrics.value = newMetrics
+    }
+    fun insertMetric(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertMetrics(metrics)
+        }
+    }
     fun loadPokes(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val newPokes: List<Poke> = repository.loadPokes(page)

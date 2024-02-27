@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -35,7 +36,8 @@ fun CardPoke(onNavSelected: (String) -> Unit, viewModel: MainViewModel, poke: Po
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .padding(8.dp)
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -44,7 +46,8 @@ fun CardPoke(onNavSelected: (String) -> Unit, viewModel: MainViewModel, poke: Po
                 .fillMaxSize()
                 .clickable {
                     viewModel.poke.value = poke
-                    onNavSelected(Destinations.DetailPokeScreen.route) }
+                    onNavSelected(Destinations.DetailPokeScreen.route)
+                }
         ) {
             Image(
                 painter = rememberAsyncImagePainter(poke.sprite),

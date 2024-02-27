@@ -16,6 +16,10 @@ interface LocalPokeDao {
     @Query("SELECT * FROM Poke WHERE favorite")
     fun getFavedPokemons(): Flow<List<Poke>>
 
+    // Obtener pokemons por nombre para la busqueda
+    @Query("SELECT * FROM Poke WHERE name LIKE '%' || :pokemonName || '%'")
+    fun getPokemonsByName(pokemonName: String): List<Poke>
+
     // Obtener pokemon por nombre para la busqueda
     @Query("SELECT * FROM Poke WHERE name LIKE :pokemonName")
     fun getPokemonByName(pokemonName: String): Poke?

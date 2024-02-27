@@ -26,7 +26,10 @@ fun Navigation(navController: NavHostController, viewModel: MainViewModel, page:
 
         composable(Destinations.DetailPokeScreen.route) { DetailPokeScreen(viewModel) }
 
-        composable(Destinations.FindPokeScreen.route) { FindPokeScreen({ dest -> navController.navigate(dest) },viewModel) }
+        composable(Destinations.FindPokeScreen.route) {
+            viewModel.clearPokes()
+            FindPokeScreen({ dest -> navController.navigate(dest) },viewModel)
+        }
 
     }
 }
